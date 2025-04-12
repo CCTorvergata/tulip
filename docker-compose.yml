@@ -12,6 +12,7 @@ services:
     build:
       context: frontend
       dockerfile: Dockerfile-frontend
+      network: host
     image: tulip-frontend:latest
     restart: unless-stopped
     ports:
@@ -28,6 +29,7 @@ services:
     build:
       context: services/api
       dockerfile: Dockerfile-api
+      network: host
     image: tulip-api:latest
     restart: unless-stopped
     depends_on:
@@ -48,6 +50,7 @@ services:
     restart: on-failure
     build:
       context: services/flagids
+      network: host
     image: tulip-flagids:latest
     depends_on:
       - mongo
@@ -65,6 +68,7 @@ services:
     build:
       context: services/go-importer
       dockerfile: Dockerfile-assembler
+      network: host
     image: tulip-assembler:latest
     restart: unless-stopped
     depends_on:
@@ -84,11 +88,11 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
-
   enricher:
     build:
       context: services/go-importer
       dockerfile: Dockerfile-enricher
+      network: host
     image: tulip-enricher:latest
     restart: unless-stopped
     depends_on:
